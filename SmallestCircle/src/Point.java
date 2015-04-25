@@ -1,28 +1,40 @@
 
 public class Point {
 	
-	private double x;
-	private double y;
+	public final double x;
+	public final double y;
 	
-	public Point(double n1,double n2)
-	{
-		this.x = n1;
-		this.y = n2;
+	
+	public Point(double x, double y) {
+		this.x = x;
+		this.y = y;
 	}
 	
-	public double getX()
-	{
-		return this.x;
+	
+	public Point subtract(Point p) {
+		return new Point(x - p.x, y - p.y);
 	}
 	
-	public double getY()
-	{
-		return this.y;
+	
+	public double distance(Point p) {
+		return Math.hypot(x - p.x, y - p.y);
 	}
 	
-	public double getDist(Point p)
-	{
-		return Math.sqrt((this.x - p.x)*(this.x - p.x) + (this.y - p.y)*(this.y - p.y));
+	
+	// Signed area / determinant thing
+	public double cross(Point p) {
+		return x * p.y - y * p.x;
+	}
+	
+	
+	// Magnitude squared
+	public double norm() {
+		return x * x + y * y;
+	}
+	
+	
+	public String toString() {
+		return String.format("Point(%g, %g)", x, y);
 	}
 
 }
