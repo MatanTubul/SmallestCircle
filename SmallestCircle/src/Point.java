@@ -10,16 +10,14 @@ public class Point {
 		this.y = y;
 	}
 	
-	
-	public Point subtract(Point p) {
-		return new Point(x - p.x, y - p.y);
-	}
-	
 	//calculating Distance between 2 points
-	public double distance(Point p) {
+	public double distanceToP(Point p) {
 		return Math.sqrt((x-p.x)*(x-p.x)+(y-p.y)*(y-p.y));
 	}
 	
+	public Point subtractP(Point p) {
+		return new Point(x - p.x, y - p.y);
+	}
 	
 	// Signed area / determinant thing
 	public double cross(Point p) {

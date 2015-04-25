@@ -3,26 +3,27 @@ import java.util.Collection;
 
 public class Circle {
 		
-	public final Point c;   
+	public final Point middlePoint;   
 	public final double radius; 
 	
 	
-	public Circle(Point c, double r) {
-		this.c = c;
-		this.radius = r;
+	public Circle(Point middleP, double rad) {
+		middlePoint = middleP;
+		radius = rad;
 	}
 	
-	//check if point inside the circle
-	
-	public boolean PointInCircle(Point p) {
-		return c.distance(p) <= radius;
+	//check if the point inside the circle
+	public boolean PointInsideCircle(Point point) {
+		if (middlePoint.distanceToP(point) <= radius)
+			return true;
+		return false;
 	}
 	
-	//check if all the points block by circle
-	
-	public boolean TotalPointsInCircle(Collection<Point> ps) {
-		for (Point p : ps) {
-			if (!PointInCircle(p))
+	//check if all the points inside the circle
+	public boolean TotalPointsInCircle(Collection<Point> points) {
+		
+		for (Point currentPoint : points) {
+			if (PointInsideCircle(currentPoint)==false)
 				return false;
 		}
 		return true;
