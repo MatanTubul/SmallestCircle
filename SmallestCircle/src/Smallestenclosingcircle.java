@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 public class Smallestenclosingcircle extends JPanel {
 	
-	public static int SIZE = 30;
+	public static int MaxPoints = 30;
 	public static double rangeMin= -15;
 	public static double rangeMax= 150;
 	static Circle circ;
@@ -22,24 +22,26 @@ public class Smallestenclosingcircle extends JPanel {
 		Random rand = new Random();
 		Double tempx,tempy;
 		
+		//cretae random points by the MaxPoints size;
 		
-		for(int i=0;i<SIZE ; i++)
+		for(int i=0;i<MaxPoints ; i++)
 		{
 			tempx = rangeMin + (rangeMax - rangeMin) * rand.nextDouble();
 			tempy = rangeMin + (rangeMax - rangeMin) * rand.nextDouble();
 			Point pt = new Point(tempx,tempy);
 			ar.add(pt);
 		}
+		
 		circ = makeCircle(ar);
-		System.out.println(circ.r);
+		System.out.println("Radius = "+circ.radius);
+		System.out.println("Center is: x ="+circ.c.x+" "+ "y = "+circ.c.y);
+		
+		//painting the circle on the window
 		JFrame f = new JFrame();
 
         f.setContentPane(new Smallestenclosingcircle());
         f.setSize(500,500);
         f.setVisible(true);
-	
-		
-		
 		System.out.println("the end");
 		
 
@@ -54,7 +56,7 @@ public class Smallestenclosingcircle extends JPanel {
 		Circle c = null;
 		for (int i = 0; i < shuffled.size(); i++) {
 			Point p = shuffled.get(i);
-			if (c == null || !c.contains(p))
+			if (c == null || !c.PointInCircle(p))
 				c = makeCircleOnePoint(shuffled.subList(0, i + 1), p);
 		}
 		return c;
@@ -66,8 +68,8 @@ public class Smallestenclosingcircle extends JPanel {
 		Circle c = new Circle(p, 0);
 		for (int i = 0; i < points.size(); i++) {
 			Point q = points.get(i);
-			if (!c.contains(q)) {
-				if (c.r == 0)
+			if (!c.PointInCircle(q)) {
+				if (c.radius == 0)
 					c = makeDiameter(p, q);
 				else
 					c = makeCircleTwoPoints(points.subList(0, i + 1), p, q);
@@ -80,7 +82,7 @@ public class Smallestenclosingcircle extends JPanel {
 	// Two boundary points known
 	private static Circle makeCircleTwoPoints(List<Point> points, Point p, Point q) {
 		Circle temp = makeDiameter(p, q);
-		if (temp.contains(points))
+		if (temp.TotalPointsInCircle(points))
 			return temp;
 		
 		Circle left = null;
@@ -96,7 +98,7 @@ public class Smallestenclosingcircle extends JPanel {
 			else if (cross < 0 && (right == null || pq.cross(c.c.subtract(p)) < pq.cross(right.c.subtract(p))))
 				right = c;
 		}
-		return right == null || left != null && left.r <= right.r ? left : right;
+		return right == null || left != null && left.radius <= right.radius ? left : right;
 		
 	}
 	
@@ -116,6 +118,8 @@ public class Smallestenclosingcircle extends JPanel {
 		Point p = new Point(x, y);
 		return new Circle(p, p.distance(a));
 	}
+	
+	//paint the smallest circle on the gui
 	 public void paint(Graphics g)
 	    {
 	        super.paint(g);
@@ -123,7 +127,7 @@ public class Smallestenclosingcircle extends JPanel {
 			
 	       
 	        
-	       g.drawOval((int)(circ.c.x-circ.r+150), (int)(circ.c.y-circ.r+150), (int)(2*circ.r), (int)(2*circ.r));
+	       g.drawOval((int)(circ.c.x-circ.radius+150), (int)(circ.c.y-circ.radius+150), (int)(2*circ.radius), (int)(2*circ.radius));
 	        for (int i=0 ; i<ar.size(); i++){
 	        	g.setColor(Color.red);
 	        	g.drawLine((int)ar.get(i).x+150, (int)ar.get(i).y+150, (int)ar.get(i).x+1+150, (int)ar.get(i).y+1+150);

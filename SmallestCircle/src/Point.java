@@ -15,9 +15,9 @@ public class Point {
 		return new Point(x - p.x, y - p.y);
 	}
 	
-	
+	//calculating Distance between 2 points
 	public double distance(Point p) {
-		return Math.hypot(x - p.x, y - p.y);
+		return Math.sqrt((x-p.x)*(x-p.x)+(y-p.y)*(y-p.y));
 	}
 	
 	
@@ -31,10 +31,4 @@ public class Point {
 	public double norm() {
 		return x * x + y * y;
 	}
-	
-	
-	public String toString() {
-		return String.format("Point(%g, %g)", x, y);
-	}
-
 }
